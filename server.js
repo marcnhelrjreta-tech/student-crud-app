@@ -18,16 +18,21 @@ app.use(express.static(path.join(__dirname, "public")));
 // Student routes
 app.use("/api/students", studentRoutes);
 
+// Port
+const PORT = process.env.PORT || 3000;
+
+// Start server FIRST
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
 // Connect to MongoDB
 mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("Connected to MongoDB");
-
-        app.listen(process.env.PORT || 3000, () => {
-            console.log(`Server running on port ${process.env.PORT || 3000}`);
-        });
     })
     .catch((error) => {
         console.error("MongoDB connection error:", error);
     });
+
